@@ -1,0 +1,29 @@
+kind = "web"
+previewPath = "/"
+title = "Smart Personal Finance"
+description = "A mobile-friendly personal finance web app for tracking income, expenses, budgets, reports, and AI-assisted spending analysis."
+version = "1.0.0"
+id = "artifacts/personal-finance"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 5000
+
+[services.development]
+run = "python ../../main.py"
+
+[services.production]
+
+[services.production.build]
+args = [ "python", "-m", "compileall", "../../personal_finance_web", "../../main.py" ]
+
+[services.production.run]
+args = [ "python", "../../main.py" ]
+
+[services.production.run.env]
+PORT = "5000"
+
+[services.env]
+PORT = "5000"
