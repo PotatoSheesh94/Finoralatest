@@ -1,44 +1,45 @@
-# [Project name]
+# Smart Personal Finance Management System
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A mobile-friendly Flask app for tracking income, expenses, budgets, reports, and AI-assisted spending analysis.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- `python main.py` — run the personal finance web app (port 5000)
+- `python -m compileall personal_finance_web` — check Python syntax
+- `pnpm run typecheck` — full typecheck for the workspace libraries
+- Required secret: `OPENAI_API_KEY` — enables the AI Spending Assistant
 
 ## Stack
 
-- pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Python 3.11, Flask, SQLite
+- OpenAI Python SDK for AI-assisted spending analysis
+- Jinja templates and responsive CSS
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `personal_finance_web/app.py` — Flask routes and application factory
+- `personal_finance_web/database/` — SQLite schema and access
+- `personal_finance_web/models/` — domain models
+- `personal_finance_web/services/` — authentication, transactions, reporting, and AI services
+- `personal_finance_web/templates/` and `personal_finance_web/static/` — UI
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- SQLite remains the app's local persistence layer from the imported project.
+- The AI assistant reads the user's finance context and never receives a raw API key from the browser.
+- Replit's `SESSION_SECRET` is used as the Flask session key unless `SECRET_KEY` is explicitly set.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
-
-## User preferences
-
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Account registration and session login
+- Transaction and budget management
+- Monthly dashboard and reporting
+- AI-powered spending summaries, budgeting suggestions, and finance Q&A
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- The AI tab works only after `OPENAI_API_KEY` is configured.
+- The workflow is named `Personal Finance App` and runs `cd personal_finance_web && python app.py`.
 
 ## Pointers
 

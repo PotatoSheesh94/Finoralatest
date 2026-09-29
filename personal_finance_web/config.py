@@ -8,8 +8,9 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent
 DATABASE_PATH = BASE_DIR / "finance.db"
 
-# Flask secret key (change in production)
-SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-me-in-production-2026")
+# Flask secret key. Replit's session secret is the safe default when no
+# app-specific key has been configured.
+SECRET_KEY = os.getenv("SECRET_KEY") or os.getenv("SESSION_SECRET") or "dev-secret-key-change-me-in-production-2026"
 
 # OpenAI
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")

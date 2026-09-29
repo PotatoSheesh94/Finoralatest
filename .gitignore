@@ -47,3 +47,11 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Python
+__pycache__/
+*.py[cod]
+.pythonlibs/
+.venv/
+.env
+personal_finance_web/finance.db
