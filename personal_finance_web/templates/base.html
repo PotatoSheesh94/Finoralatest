@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>{% block title %}{{ app_title }}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  {% if current_user %}
+  <nav class="navbar">
+    <div class="nav-brand">💰 Finance</div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">Dashboard</a>
+      <a href="{{ url_for('transactions') }}" class="{% if request.endpoint in ['transactions','add_transaction','edit_transaction'] %}active{% endif %}">Transactions</a>
+      <a href="{{ url_for('reports') }}" class="{% if request.endpoint == 'reports' %}active{% endif %}">Reports</a>
+      <a href="{{ url_for('ai_assistant') }}" class="{% if request.endpoint == 'ai_assistant' %}active{% endif %}">AI Assistant</a>
+      <a href="{{ url_for('budgets') }}" class="{% if request.endpoint in ['budgets','add_budget'] %}active{% endif %}">Budgets</a>
+      <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+    </div>
+  </nav>
+  {% endif %}
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <small>{{ app_title }} v{{ app_version }}</small>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links = document.getElementById('navLinks');
+    if (toggle && links) {
+      toggle.addEventListener('click', () => links.classList.toggle('show'));
+    }
+  </script>
+</body>
+</html>

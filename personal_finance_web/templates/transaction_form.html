@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if transaction else 'Add' }} Transaction – {{ app_title }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>{{ 'Edit' if transaction else 'Add' }} Transaction</h1>
+</div>
+<div class="card" style="max-width:480px">
+  <form method="post">
+    <div class="form-group">
+      <label for="type">Type</label>
+      <select class="form-control" id="type" name="type" required>
+        <option value="expense" {% if transaction and transaction.type == 'expense' %}selected{% endif %}>Expense</option>
+        <option value="income" {% if transaction and transaction.type == 'income' %}selected{% endif %}>Income</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="category_id">Category</label>
+      <select class="form-control" id="category_id" name="category_id" required>
+        {% for c in categories %}
+          <option value="{{ c.id }}"
+            {% if transaction and transaction.category_id == c.id %}selected{% endif %}
+            data-type="{{ c.type }}">
+            {{ c.name }} ({{ c.type }})
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="amount">Amount (₱)</label>
+      <input class="form-control" type="number" step="0.01" min="0.01" id="amount" name="amount"
+             value="{{ transaction.amount if transaction else '' }}" required>
+    </div>
+    <div class="form-group">
+      <label for="transaction_date">Date</label>
+      <input class="form-control" type="date" id="transaction_date" name="transaction_date"
+             value="{{ transaction.transaction_date if transaction else today }}" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control" id="description" name="description"
+                rows="3">{{ transaction.description if transaction else '' }}</textarea>
+    </div>
+    <div class="btn-group">
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a href="{{ url_for('transactions') }}" class="btn btn-outline">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

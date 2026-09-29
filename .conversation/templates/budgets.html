@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Budgets – {{ app_title }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Budgets</h1>
+  <a href="{{ url_for('add_budget') }}" class="btn btn-primary btn-sm">+ Add Budget</a>
+</div>
+
+<div class="card">
+  {% if budgets %}
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Amount</th>
+          <th>Period</th>
+          <th>Start</th>
+          <th>Notes</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for b in budgets %}
+        <tr>
+          <td>{{ b.category.name if b.category else 'Overall' }}</td>
+          <td>{{ format_currency(b.amount) }}</td>
+          <td>{{ b.period }}</td>
+          <td>{{ b.start_date }}</td>
+          <td>{{ b.notes or '—' }}</td>
+          <td>
+            <form method="post" action="{{ url_for('delete_budget', budget_id=b.id) }}"
+                  onsubmit="return confirm('Delete this budget?')">
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="empty">No budgets yet. <a href="{{ url_for('add_budget') }}">Create one</a></p>
+  {% endif %}
+</div>
+{% endblock %}

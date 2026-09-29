@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Dashboard – {{ app_title }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Hello, {{ current_user.full_name.split()[0] }}</h1>
+</div>
+
+<div class="grid-4" style="margin-bottom:1.25rem">
+  <div class="stat-card income">
+    <div class="label">Income (This Month)</div>
+    <div class="value">{{ format_currency(summary.total_income) }}</div>
+  </div>
+  <div class="stat-card expense">
+    <div class="label">Expenses (This Month)</div>
+    <div class="value">{{ format_currency(summary.total_expense) }}</div>
+  </div>
+  <div class="stat-card net">
+    <div class="label">Net</div>
+    <div class="value">{{ format_currency(summary.net) }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Transactions</div>
+    <div class="value">{{ summary.transaction_count }}</div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h3>Recent Transactions</h3>
+    {% if recent_transactions %}
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Category</th><th>Amount</th></tr></thead>
+        <tbody>
+        {% for t in recent_transactions %}
+          <tr>
+            <td>{{ t.transaction_date }}</td>
+            <td>{{ t.category.name if t.category else '—' }}</td>
+            <td class="{{ 'amount-expense' if t.is_expense() else 'amount-income' }}">
+              {{ '−' if t.is_expense() else '+' }}{{ format_currency(t.amount) }}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:0.75rem"><a href="{{ url_for('transactions') }}">View all →</a></p>
+    {% else %}
+    <p class="empty">No transactions yet. <a href="{{ url_for('add_transaction') }}">Add one</a></p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h3>Top Expenses This Month</h3>
+    {% if breakdown %}
+      {% for item in breakdown %}
+        <div style="margin-bottom:0.75rem">
+          <div style="display:flex;justify-content:space-between;font-size:0.9rem">
+            <span>{{ item.category }}</span>
+            <span>{{ format_currency(item.amount) }} ({{ item.percentage }}%)</span>
+          </div>
+          <div class="bar-bg"><div class="bar-fill" style="width:{{ item.percentage }}%"></div></div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="empty">No expense data yet.</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="btn-group" style="margin-top:0.5rem">
+  <a href="{{ url_for('add_transaction') }}" class="btn btn-primary">+ Add Transaction</a>
+  <a href="{{ url_for('ai_assistant') }}" class="btn btn-outline">AI Insights</a>
+  <a href="{{ url_for('reports') }}" class="btn btn-outline">Full Reports</a>
+</div>
+{% endblock %}

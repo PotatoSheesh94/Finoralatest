@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}AI Assistant – {{ app_title }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>AI Spending Assistant</h1>
+</div>
+
+{% if not ai_available %}
+<div class="alert alert-warning">
+  OpenAI API key is not configured. Create a <code>.env</code> file with<br>
+  <code>OPENAI_API_KEY=sk-your-key-here</code> and restart the app.
+</div>
+{% else %}
+<div class="alert alert-success">AI service is ready.</div>
+{% endif %}
+
+<div class="card">
+  <form method="post">
+    <div class="form-group">
+      <label>Analysis Period</label>
+      <select class="form-control" name="period">
+        <option value="this_month" {% if period=='this_month' %}selected{% endif %}>This Month</option>
+        <option value="30" {% if period=='30' %}selected{% endif %}>Last 30 Days</option>
+        <option value="90" {% if period=='90' %}selected{% endif %}>Last 90 Days</option>
+        <option value="all" {% if period=='all' %}selected{% endif %}>All Time</option>
+      </select>
+    </div>
+
+    <div class="btn-group">
+      <button type="submit" name="action" value="summarize" class="btn btn-primary">
+        Summarize Spending Patterns
+      </button>
+      <button type="submit" name="action" value="budget" class="btn btn-primary">
+        Get Budgeting Suggestions
+      </button>
+    </div>
+
+    <hr style="margin:1.25rem 0;border:none;border-top:1px solid var(--border)">
+
+    <div class="form-group">
+      <label for="question">Ask a Finance Question</label>
+      <input class="form-control" type="text" id="question" name="question"
+             placeholder="e.g. Where am I overspending?">
+    </div>
+    <button type="submit" name="action" value="ask" class="btn btn-outline">Ask AI</button>
+  </form>
+</div>
+
+{% if result %}
+<div class="card">
+  <h3>
+    {% if action == 'summarize' %}Spending Summary
+    {% elif action == 'budget' %}Budgeting Suggestions
+    {% else %}AI Answer{% endif %}
+  </h3>
+  <div class="ai-response">{{ result }}</div>
+</div>
+{% endif %}
+
+<div class="card" style="font-size:0.9rem;color:var(--muted)">
+  <strong>How it works:</strong> Your recorded transactions are summarized and sent to the ChatGPT API.
+  The AI returns pattern analysis and practical budgeting advice. Suggestions are advisory only.
+</div>
+{% endblock %}

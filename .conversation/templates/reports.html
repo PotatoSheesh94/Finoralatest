@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Reports – {{ app_title }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Reports & Analysis</h1>
+</div>
+
+<form method="get" class="btn-group">
+  <button type="submit" name="period" value="this_month" class="btn {% if period=='this_month' %}btn-primary{% else %}btn-outline{% endif %} btn-sm">This Month</button>
+  <button type="submit" name="period" value="30" class="btn {% if period=='30' %}btn-primary{% else %}btn-outline{% endif %} btn-sm">Last 30 Days</button>
+  <button type="submit" name="period" value="90" class="btn {% if period=='90' %}btn-primary{% else %}btn-outline{% endif %} btn-sm">Last 90 Days</button>
+  <button type="submit" name="period" value="all" class="btn {% if period=='all' %}btn-primary{% else %}btn-outline{% endif %} btn-sm">All Time</button>
+</form>
+
+<div class="grid-4" style="margin:1rem 0">
+  <div class="stat-card income">
+    <div class="label">Total Income</div>
+    <div class="value">{{ format_currency(summary.total_income) }}</div>
+  </div>
+  <div class="stat-card expense">
+    <div class="label">Total Expenses</div>
+    <div class="value">{{ format_currency(summary.total_expense) }}</div>
+  </div>
+  <div class="stat-card net">
+    <div class="label">Net</div>
+    <div class="value">{{ format_currency(summary.net) }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Transactions</div>
+    <div class="value">{{ summary.transaction_count }}</div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h3>Expense Breakdown</h3>
+    {% if expense_breakdown %}
+      {% for item in expense_breakdown %}
+        <div style="margin-bottom:0.75rem">
+          <div style="display:flex;justify-content:space-between;font-size:0.9rem">
+            <span>{{ item.category }}</span>
+            <span>{{ format_currency(item.amount) }} ({{ item.percentage }}%)</span>
+          </div>
+          <div class="bar-bg"><div class="bar-fill" style="width:{{ item.percentage }}%"></div></div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="empty">No expense data.</p>
+    {% endif %}
+  </div>
+  <div class="card">
+    <h3>Income Sources</h3>
+    {% if income_breakdown %}
+      {% for item in income_breakdown %}
+        <div style="margin-bottom:0.75rem">
+          <div style="display:flex;justify-content:space-between;font-size:0.9rem">
+            <span>{{ item.category }}</span>
+            <span>{{ format_currency(item.amount) }} ({{ item.percentage }}%)</span>
+          </div>
+          <div class="bar-bg"><div class="bar-fill" style="width:{{ item.percentage }}%;background:#0f9d58"></div></div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="empty">No income data.</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="card">
+  <h3>Monthly Trend (Last 6 Months)</h3>
+  {% if trend %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Period</th><th>Income</th><th>Expense</th><th>Net</th></tr></thead>
+      <tbody>
+      {% for m in trend %}
+        <tr>
+          <td>{{ m.period }}</td>
+          <td class="amount-income">{{ format_currency(m.income) }}</td>
+          <td class="amount-expense">{{ format_currency(m.expense) }}</td>
+          <td>{{ format_currency(m.net) }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="empty">Not enough data for trend.</p>
+  {% endif %}
+</div>
+{% endblock %}
