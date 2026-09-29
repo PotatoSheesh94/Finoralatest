@@ -38,9 +38,9 @@
     <hr style="margin:1.25rem 0;border:none;border-top:1px solid var(--border)">
 
     <div class="form-group">
-      <label for="question">Ask a Finance Question</label>
+      <label for="question">Ask the AI Anything</label>
       <input class="form-control" type="text" id="question" name="question"
-             placeholder="e.g. Where am I overspending?">
+             placeholder="e.g. Explain compound interest simply">
     </div>
     <button type="submit" name="action" value="ask" class="btn btn-outline">Ask AI</button>
   </form>
@@ -58,7 +58,8 @@
 {% endif %}
 
 <div class="card" style="font-size:0.9rem;color:var(--muted)">
-  <strong>How it works:</strong> Your recorded transactions are summarized and sent to the Google Gemini API.
-  Gemini returns pattern analysis and practical budgeting advice. Suggestions are advisory only.
+  <strong>How it works:</strong> Spending actions use your recorded transactions.
+  Open-ended questions are answered directly by Google Gemini, using your finance context when relevant.
+  Financial suggestions are advisory only.
 </div>
 {% endblock %}

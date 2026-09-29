@@ -1,6 +1,6 @@
 """
 AI-assisted spending analysis service using Google's Gemini API.
-Provides summarization of spending patterns and budgeting suggestions.
+Provides spending analysis, budgeting suggestions, and open-ended answers.
 """
 
 import json
@@ -25,17 +25,19 @@ class AIService:
     Integrates Google's Gemini generateContent API for:
     - Spending pattern summarization
     - Budgeting suggestions
-    - General finance-related Q&A based on user data
+    - Open-ended questions, using user data when relevant
     """
 
     SYSTEM_PROMPT = (
-        "You are a professional personal finance advisor. "
-        "Analyze the provided transaction data carefully. "
-        "Give clear, actionable, and realistic advice. "
+        "You are a helpful general-purpose AI assistant with strong personal finance expertise. "
+        "Answer the user's actual question directly, whether it is about personal finance or "
+        "a general topic. "
+        "When transaction data is provided and relevant, use it carefully. "
+        "Give clear, actionable, and realistic advice for finance questions. "
         "Be concise yet thorough. Use bullet points where helpful. "
         "Never invent transactions that are not in the data. "
         "Currency is Philippine Peso (PHP) unless stated otherwise. "
-        "Focus on patterns, potential overspending areas, and practical budgeting recommendations."
+        "Do not force unrelated questions into budgeting or spending analysis."
     )
 
     def __init__(self, db: DatabaseManager = None, api_key: str = None):
@@ -166,12 +168,14 @@ class AIService:
         start_date: str = None,
         end_date: str = None,
     ) -> str:
-        """Answer a free-form finance question using the user's transaction context."""
+        """Answer an open-ended question, using the user's transaction context when relevant."""
         context = self.analysis.prepare_ai_context(user_id, start_date, end_date)
         prompt = (
             f"User question: {question}\n\n"
-            "Answer the question using only the data below. If the data is insufficient, "
-            "say so clearly.\n\n"
+            "Answer this question directly and naturally. If it relates to the user's "
+            "personal finances, use the transaction context below. If it is a general "
+            "question, answer from general knowledge and do not force a budgeting answer. "
+            "Do not pretend the transaction data contains facts it does not contain.\n\n"
             f"{context}"
         )
         result = self._call_gemini(prompt)
