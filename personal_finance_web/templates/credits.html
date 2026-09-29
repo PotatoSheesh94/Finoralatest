@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Credits – {{ app_title }}{% endblock %}
+{% block content %}
+<div class="credits-page">
+  <div class="credits-hero">
+    <a class="auth-brand" href="{{ url_for('index') }}"><span class="brand-mark">F</span><strong>Finora</strong></a>
+    <p class="eyebrow">Project credits</p>
+    <h1>{{ project_title }}</h1>
+    <p class="credits-description">{{ app_description }}.</p>
+    <div class="tagline-pill">“{{ tagline }}”</div>
+  </div>
+
+  <div class="credits-grid">
+    <section class="credit-card credit-card-lead">
+      <p class="eyebrow">Team lead</p>
+      <h2>{{ leader }}</h2>
+      <p>Leading the team behind the Finora experience.</p>
+    </section>
+    <section class="credit-card">
+      <p class="eyebrow">Professor</p>
+      <h2>{{ professor }}</h2>
+      <p>Project guidance and instruction.</p>
+    </section>
+  </div>
+
+  <section class="credit-card members-card">
+    <div class="card-heading">
+      <div><p class="eyebrow">The team</p><h2>Project members</h2></div>
+      <span class="member-count">{{ team_members|length }} members</span>
+    </div>
+    <ol class="member-list">
+      {% for member in team_members %}
+      <li><span class="member-number">0{{ loop.index }}</span><strong>{{ member }}</strong></li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  <a href="{{ url_for('index') }}" class="btn btn-primary">Return to Finora</a>
+</div>
+{% endblock %}

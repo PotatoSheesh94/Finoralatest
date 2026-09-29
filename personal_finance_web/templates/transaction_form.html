@@ -2,9 +2,9 @@
 {% block title %}{{ 'Edit' if transaction else 'Add' }} Transaction – {{ app_title }}{% endblock %}
 {% block content %}
 <div class="page-header">
-  <h1>{{ 'Edit' if transaction else 'Add' }} Transaction</h1>
+  <div><p class="eyebrow">Money movement</p><h1>{{ 'Edit' if transaction else 'Add' }} transaction</h1><p class="page-subtitle">Record the details so your picture stays accurate.</p></div>
 </div>
-<div class="card" style="max-width:480px">
+<div class="card form-card">
   <form method="post">
     <div class="form-group">
       <label for="type">Type</label>

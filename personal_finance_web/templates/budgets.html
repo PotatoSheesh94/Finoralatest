@@ -2,8 +2,8 @@
 {% block title %}Budgets – {{ app_title }}{% endblock %}
 {% block content %}
 <div class="page-header">
-  <h1>Budgets</h1>
-  <a href="{{ url_for('add_budget') }}" class="btn btn-primary btn-sm">+ Add Budget</a>
+  <div><p class="eyebrow">Plan with intention</p><h1>Budgets</h1><p class="page-subtitle">Give your priorities a number and a rhythm.</p></div>
+  <a href="{{ url_for('add_budget') }}" class="btn btn-primary">New budget <span aria-hidden="true">+</span></a>
 </div>
 
 <div class="card">

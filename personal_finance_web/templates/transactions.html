@@ -2,8 +2,8 @@
 {% block title %}Transactions – {{ app_title }}{% endblock %}
 {% block content %}
 <div class="page-header">
-  <h1>Transactions</h1>
-  <a href="{{ url_for('add_transaction') }}" class="btn btn-primary btn-sm">+ Add</a>
+  <div><p class="eyebrow">Your money trail</p><h1>Transactions</h1><p class="page-subtitle">Keep every inflow and outflow in one clear place.</p></div>
+  <a href="{{ url_for('add_transaction') }}" class="btn btn-primary">New transaction <span aria-hidden="true">+</span></a>
 </div>
 
 <form class="filter-bar card" method="get" style="padding:1rem">

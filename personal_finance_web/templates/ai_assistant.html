@@ -2,7 +2,7 @@
 {% block title %}AI Assistant – {{ app_title }}{% endblock %}
 {% block content %}
 <div class="page-header">
-  <h1>AI Spending Assistant</h1>
+  <div><p class="eyebrow">Your thinking partner</p><h1>Finora AI</h1><p class="page-subtitle">Ask questions, understand patterns, and make your next decision with more context.</p></div>
 </div>
 
 {% if not ai_available %}
@@ -14,7 +14,8 @@
 <div class="alert alert-success">AI service is ready.</div>
 {% endif %}
 
-<div class="card">
+<div class="card ai-card">
+  <div class="ai-intro"><span class="ai-orb">F</span><div><h2>What would you like to understand?</h2><p>Use your financial context when it helps, or ask Finora anything.</p></div></div>
   <form method="post">
     <div class="form-group">
       <label>Analysis Period</label>
@@ -42,7 +43,7 @@
       <input class="form-control" type="text" id="question" name="question"
              placeholder="e.g. Explain compound interest simply">
     </div>
-    <button type="submit" name="action" value="ask" class="btn btn-outline">Ask AI</button>
+    <button type="submit" name="action" value="ask" class="btn btn-soft">Ask Finora AI <span aria-hidden="true">↗</span></button>
   </form>
 </div>
 

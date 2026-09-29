@@ -1,8 +1,9 @@
-# Smart Personal Finance Management System (Web Edition)
+# Finora (Web Edition)
 ## Python OOP + Flask + AI-Assisted Spending Analysis
 
-**Project No. 11** | Datamex College of Saint Adeline  
-**Version:** 2.0.0 (Flask Web – Mobile Friendly)
+**Title:** Final Project In OOP & Discrete Structure  
+**Description:** Smart Personal Finance Management System with AI-Assisted Spending Analysis  
+**Tagline:** “Understand your money. Decide smarter.”
 
 ---
 
@@ -23,11 +24,12 @@ All core OOP requirements, SQLite database, business logic, and the mandatory AI
 - Budget setting
 - Dashboard with live monthly summary
 - Reports: totals, category breakdown, monthly trend
-- **AI Spending Assistant** (Google Gemini API)
+- **Finora AI** (Google Gemini API)
   - Summarize spending patterns
   - Budgeting suggestions
   - Free-form finance questions
 - Fully responsive (works on phones)
+- Project credits page with team and professor details
 
 ---
 
@@ -116,7 +118,7 @@ Without the Google AI key the rest of the system still works; only the AI tab wi
 3. Show Dashboard summary cards.
 4. Open Transactions → filter / edit / delete.
 5. Open Reports → switch periods, show breakdown.
-6. Open **AI Spending Assistant**:
+6. Open **Finora AI**:
    - Summarize Spending Patterns
    - Get Budgeting Suggestions
    - Ask a custom question
@@ -129,4 +131,10 @@ Without the Google AI key the rest of the system still works; only the AI tab wi
 - The system is **more than CRUD** – it includes analysis, budgeting, and AI decision support.
 - All monetary values use Philippine Peso (₱) formatting by default.
 - The AI feature is connected to real transaction data and is fully demonstrable when an API key is present.
+
+### Credits
+
+- **Leader:** Harvy Aguilar
+- **Members:** Shiemar Maravilla, Formanes Chene, Daniela Diamos, Hanna Nicole
+- **Professor:** Mr. Villanueva
 

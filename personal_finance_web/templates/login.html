@@ -1,20 +1,34 @@
 {% extends "base.html" %}
 {% block title %}Login – {{ app_title }}{% endblock %}
 {% block content %}
-<div class="auth-wrap">
-  <h1>💰 Personal Finance</h1>
-  <p class="subtitle">Sign in to your account</p>
-  <form method="post">
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input class="form-control" type="text" id="username" name="username" required autofocus>
+<div class="auth-layout">
+  <section class="auth-story">
+    <a class="auth-brand" href="{{ url_for('login') }}"><span class="brand-mark">F</span><strong>Finora</strong></a>
+    <div class="auth-story-copy">
+      <p class="eyebrow">Your money, in focus</p>
+      <h1>{{ tagline }}</h1>
+      <p>{{ app_description }}.</p>
     </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input class="form-control" type="password" id="password" name="password" required>
+    <div class="story-note"><span class="note-dot"></span>Built for smarter everyday decisions</div>
+  </section>
+  <section class="auth-wrap">
+    <div class="auth-heading">
+      <p class="eyebrow">Welcome back</p>
+      <h2>Sign in to Finora</h2>
+      <p class="subtitle">Pick up where you left off.</p>
     </div>
-    <button type="submit" class="btn btn-primary btn-block">Login</button>
-  </form>
-  <p class="auth-links">No account? <a href="{{ url_for('register') }}">Register here</a></p>
+    <form method="post">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input class="form-control" type="text" id="username" name="username" autocomplete="username" required autofocus>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input class="form-control" type="password" id="password" name="password" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+    </form>
+    <p class="auth-links">New to Finora? <a href="{{ url_for('register') }}">Create an account</a></p>
+  </section>
 </div>
 {% endblock %}

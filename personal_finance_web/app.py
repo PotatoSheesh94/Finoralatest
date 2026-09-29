@@ -1,7 +1,4 @@
-"""
-Smart Personal Finance Management System – Flask Web Application
-Project No. 11 | OOP Final Project with AI-Assisted Spending Analysis
-"""
+"""Finora – Smart Personal Finance Management System with AI-Assisted Spending Analysis."""
 
 import os
 import sys
@@ -16,7 +13,18 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from config import SECRET_KEY, APP_TITLE, APP_VERSION, DATABASE_PATH
+from config import (
+    SECRET_KEY,
+    APP_TITLE,
+    APP_VERSION,
+    DATABASE_PATH,
+    PROJECT_TITLE,
+    APP_DESCRIPTION,
+    TAGLINE,
+    LEADER,
+    TEAM_MEMBERS,
+    PROFESSOR,
+)
 from database.db_manager import DatabaseManager
 from services.auth_service import AuthService
 from services.transaction_service import TransactionService
@@ -66,6 +74,12 @@ def create_app():
         return {
             "app_title": APP_TITLE,
             "app_version": APP_VERSION,
+            "project_title": PROJECT_TITLE,
+            "app_description": APP_DESCRIPTION,
+            "tagline": TAGLINE,
+            "leader": LEADER,
+            "team_members": TEAM_MEMBERS,
+            "professor": PROFESSOR,
             "current_user": user,
             "month_summary": summary,
             "format_currency": format_currency,
@@ -118,6 +132,10 @@ def create_app():
         session.clear()
         flash("You have been logged out.", "info")
         return redirect(url_for("login"))
+
+    @app.route("/credits")
+    def credits():
+        return render_template("credits.html")
 
     # ---------- Dashboard ----------
     @app.route("/dashboard")

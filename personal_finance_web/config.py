@@ -1,6 +1,4 @@
-"""
-Configuration for the Smart Personal Finance Management System (Flask Web Version).
-"""
+"""Configuration for the Finora personal finance web app."""
 
 import os
 from pathlib import Path
@@ -16,8 +14,19 @@ SECRET_KEY = os.getenv("SECRET_KEY") or os.getenv("SESSION_SECRET") or "dev-secr
 GOOGLE_AI_API_KEY = os.getenv("GOOGLE_AI_API_KEY", "")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3-flash-preview")
 
-APP_TITLE = "Smart Personal Finance Management System"
-APP_VERSION = "2.0.0 (Web)"
+APP_TITLE = "Finora"
+APP_VERSION = "1.0.0"
+PROJECT_TITLE = "Final Project In OOP & Discrete Structure"
+APP_DESCRIPTION = "Smart Personal Finance Management System with AI-Assisted Spending Analysis"
+TAGLINE = "Understand your money. Decide smarter."
+LEADER = "Harvy Aguilar"
+TEAM_MEMBERS = (
+    "Shiemar Maravilla",
+    "Formanes Chene",
+    "Daniela Diamos",
+    "Hanna Nicole",
+)
+PROFESSOR = "Mr. Villanueva"
 DEFAULT_CURRENCY = "PHP"
 
 DEFAULT_CATEGORIES = [

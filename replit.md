@@ -1,6 +1,7 @@
-# Smart Personal Finance Management System
+# Finora
 
 A mobile-friendly Flask app for tracking income, expenses, budgets, reports, and AI-assisted spending analysis.
+Final Project In OOP & Discrete Structure.
 
 ## Run & Operate
 
@@ -35,11 +36,12 @@ A mobile-friendly Flask app for tracking income, expenses, budgets, reports, and
 - Transaction and budget management
 - Monthly dashboard and reporting
 - AI-powered spending summaries, budgeting suggestions, and finance Q&A
+- Project credits at `/credits`
 
 ## Gotchas
 
 - The AI tab works only after `GOOGLE_AI_API_KEY` is configured.
-- The workflow is named `Personal Finance App` and runs `cd personal_finance_web && python app.py`.
+- The managed workflow is `artifacts/personal-finance: web` and runs `python ../../main.py`.
 
 ## Pointers
 

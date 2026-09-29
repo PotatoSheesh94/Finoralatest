@@ -1,32 +1,44 @@
 {% extends "base.html" %}
 {% block title %}Dashboard – {{ app_title }}{% endblock %}
 {% block content %}
-<div class="page-header">
-  <h1>Hello, {{ current_user.full_name.split()[0] }}</h1>
+<div class="page-header dashboard-header">
+  <div>
+    <p class="eyebrow">Personal overview</p>
+    <h1>Good to see you, {{ current_user.full_name.split()[0] }}.</h1>
+    <p class="page-subtitle">A clearer view of where your money is going this month.</p>
+  </div>
+  <a href="{{ url_for('add_transaction') }}" class="btn btn-primary">Add transaction <span aria-hidden="true">+</span></a>
 </div>
 
-<div class="grid-4" style="margin-bottom:1.25rem">
+<div class="grid-4 stat-grid">
   <div class="stat-card income">
-    <div class="label">Income (This Month)</div>
+    <div class="stat-top"><span class="stat-icon">↗</span><span class="label">Income this month</span></div>
     <div class="value">{{ format_currency(summary.total_income) }}</div>
+    <p class="stat-note">Money in</p>
   </div>
   <div class="stat-card expense">
-    <div class="label">Expenses (This Month)</div>
+    <div class="stat-top"><span class="stat-icon">↘</span><span class="label">Expenses this month</span></div>
     <div class="value">{{ format_currency(summary.total_expense) }}</div>
+    <p class="stat-note">Money out</p>
   </div>
   <div class="stat-card net">
-    <div class="label">Net</div>
+    <div class="stat-top"><span class="stat-icon">=</span><span class="label">Net position</span></div>
     <div class="value">{{ format_currency(summary.net) }}</div>
+    <p class="stat-note">Income minus expenses</p>
   </div>
   <div class="stat-card">
-    <div class="label">Transactions</div>
+    <div class="stat-top"><span class="stat-icon">#</span><span class="label">Transactions</span></div>
     <div class="value">{{ summary.transaction_count }}</div>
+    <p class="stat-note">Recorded this month</p>
   </div>
 </div>
 
 <div class="grid-2">
   <div class="card">
-    <h3>Recent Transactions</h3>
+    <div class="card-heading">
+      <div><p class="eyebrow">Activity</p><h3>Recent transactions</h3></div>
+      <a href="{{ url_for('transactions') }}" class="text-link">View all</a>
+    </div>
     {% if recent_transactions %}
     <div class="table-wrap">
       <table>
@@ -44,18 +56,20 @@
         </tbody>
       </table>
     </div>
-    <p style="margin-top:0.75rem"><a href="{{ url_for('transactions') }}">View all →</a></p>
     {% else %}
     <p class="empty">No transactions yet. <a href="{{ url_for('add_transaction') }}">Add one</a></p>
     {% endif %}
   </div>
 
   <div class="card">
-    <h3>Top Expenses This Month</h3>
+    <div class="card-heading">
+      <div><p class="eyebrow">Where it goes</p><h3>Top expenses</h3></div>
+      <a href="{{ url_for('reports') }}" class="text-link">See reports</a>
+    </div>
     {% if breakdown %}
       {% for item in breakdown %}
-        <div style="margin-bottom:0.75rem">
-          <div style="display:flex;justify-content:space-between;font-size:0.9rem">
+        <div class="breakdown-item">
+          <div class="breakdown-label">
             <span>{{ item.category }}</span>
             <span>{{ format_currency(item.amount) }} ({{ item.percentage }}%)</span>
           </div>
@@ -69,8 +83,7 @@
 </div>
 
 <div class="btn-group" style="margin-top:0.5rem">
-  <a href="{{ url_for('add_transaction') }}" class="btn btn-primary">+ Add Transaction</a>
-  <a href="{{ url_for('ai_assistant') }}" class="btn btn-outline">AI Insights</a>
-  <a href="{{ url_for('reports') }}" class="btn btn-outline">Full Reports</a>
+  <a href="{{ url_for('ai_assistant') }}" class="btn btn-soft">Ask Finora AI <span aria-hidden="true">↗</span></a>
+  <a href="{{ url_for('reports') }}" class="btn btn-outline">Open reports</a>
 </div>
 {% endblock %}
