@@ -109,7 +109,7 @@ class AnalysisService:
     ) -> str:
         """
         Build a textual summary of recent transactions and statistics
-        suitable for sending to the OpenAI API.
+        suitable for sending to the Gemini API.
         """
         if not start_date:
             start_date = (datetime.now() - timedelta(days=90)).strftime("%Y-%m-%d")

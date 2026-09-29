@@ -23,7 +23,7 @@ All core OOP requirements, SQLite database, business logic, and the mandatory AI
 - Budget setting
 - Dashboard with live monthly summary
 - Reports: totals, category breakdown, monthly trend
-- **AI Spending Assistant** (OpenAI / ChatGPT API)
+- **AI Spending Assistant** (Google Gemini API)
   - Summarize spending patterns
   - Budgeting suggestions
   - Free-form finance questions
@@ -51,7 +51,7 @@ personal_finance_web/
 │   ├── auth_service.py
 │   ├── transaction_service.py
 │   ├── analysis_service.py
-│   └── ai_service.py       # OpenAI integration
+│   └── ai_service.py       # Google Gemini integration
 ├── utils/
 ├── templates/              # Mobile-friendly HTML
 └── static/style.css
@@ -77,7 +77,7 @@ personal_finance_web/
 #### Option A – Replit (easiest from phone)
 1. Create a new Replit (Python).
 2. Upload the project files (or clone).
-3. In Secrets / Environment add `OPENAI_API_KEY`.
+3. In Secrets / Environment add `GOOGLE_AI_API_KEY`.
 4. Run: `pip install -r requirements.txt && python app.py`
 5. Open the webview / published URL on your phone.
 
@@ -85,7 +85,7 @@ personal_finance_web/
 ```bash
 cd personal_finance_web
 pip install -r requirements.txt
-# create .env with your OPENAI_API_KEY
+# create .env with your GOOGLE_AI_API_KEY
 python app.py
 ```
 Then open `http://localhost:5000` (or the device IP) in your mobile browser.
@@ -100,12 +100,12 @@ Upload the folder, set the WSGI file to point to `app.py`, add the API key in En
 Create a `.env` file (or set secrets):
 
 ```
-OPENAI_API_KEY=sk-your-key-here
-OPENAI_MODEL=gpt-4o-mini
+GOOGLE_AI_API_KEY=your-google-ai-key
+GEMINI_MODEL=gemini-3-flash-preview
 SECRET_KEY=any-random-string
 ```
 
-Without the OpenAI key the rest of the system still works; only the AI tab will show a warning.
+Without the Google AI key the rest of the system still works; only the AI tab will show a warning.
 
 ---
 

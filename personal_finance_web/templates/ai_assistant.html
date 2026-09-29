@@ -7,8 +7,8 @@
 
 {% if not ai_available %}
 <div class="alert alert-warning">
-  OpenAI API key is not configured. Create a <code>.env</code> file with<br>
-  <code>OPENAI_API_KEY=sk-your-key-here</code> and restart the app.
+  Google Gemini API key is not configured. Add <code>GOOGLE_AI_API_KEY</code>
+  to the app secrets and restart the app.
 </div>
 {% else %}
 <div class="alert alert-success">AI service is ready.</div>
@@ -58,7 +58,7 @@
 {% endif %}
 
 <div class="card" style="font-size:0.9rem;color:var(--muted)">
-  <strong>How it works:</strong> Your recorded transactions are summarized and sent to the ChatGPT API.
-  The AI returns pattern analysis and practical budgeting advice. Suggestions are advisory only.
+  <strong>How it works:</strong> Your recorded transactions are summarized and sent to the Google Gemini API.
+  Gemini returns pattern analysis and practical budgeting advice. Suggestions are advisory only.
 </div>
 {% endblock %}

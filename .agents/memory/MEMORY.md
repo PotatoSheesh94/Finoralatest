@@ -1,0 +1,1 @@
+- [Gemini model availability](gemini-model-availability.md) — direct Google API keys may reject older defaults or return temporary capacity errors; keep a current preview model and retry transient failures.

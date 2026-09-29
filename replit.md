@@ -7,12 +7,12 @@ A mobile-friendly Flask app for tracking income, expenses, budgets, reports, and
 - `python main.py` — run the personal finance web app (port 5000)
 - `python -m compileall personal_finance_web` — check Python syntax
 - `pnpm run typecheck` — full typecheck for the workspace libraries
-- Required secret: `OPENAI_API_KEY` — enables the AI Spending Assistant
+- Required secret: `GOOGLE_AI_API_KEY` — enables the Gemini-powered AI Spending Assistant
 
 ## Stack
 
 - Python 3.11, Flask, SQLite
-- OpenAI Python SDK for AI-assisted spending analysis
+- Google Gemini API for AI-assisted spending analysis
 - Jinja templates and responsive CSS
 
 ## Where things live
@@ -38,7 +38,7 @@ A mobile-friendly Flask app for tracking income, expenses, budgets, reports, and
 
 ## Gotchas
 
-- The AI tab works only after `OPENAI_API_KEY` is configured.
+- The AI tab works only after `GOOGLE_AI_API_KEY` is configured.
 - The workflow is named `Personal Finance App` and runs `cd personal_finance_web && python app.py`.
 
 ## Pointers

@@ -12,9 +12,9 @@ DATABASE_PATH = BASE_DIR / "finance.db"
 # app-specific key has been configured.
 SECRET_KEY = os.getenv("SECRET_KEY") or os.getenv("SESSION_SECRET") or "dev-secret-key-change-me-in-production-2026"
 
-# OpenAI
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+# Google Gemini
+GOOGLE_AI_API_KEY = os.getenv("GOOGLE_AI_API_KEY", "")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3-flash-preview")
 
 APP_TITLE = "Smart Personal Finance Management System"
 APP_VERSION = "2.0.0 (Web)"

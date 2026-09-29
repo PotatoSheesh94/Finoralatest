@@ -297,7 +297,7 @@ def create_app():
         if request.method == "POST":
             action = request.form.get("action")
             if not ai.is_available:
-                flash("OpenAI API key is not configured. Set OPENAI_API_KEY in .env or environment.", "warning")
+                flash("Google Gemini API key is not configured. Set GOOGLE_AI_API_KEY in the app secrets.", "warning")
             else:
                 try:
                     if action == "summarize":

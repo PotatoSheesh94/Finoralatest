@@ -1,10 +1,13 @@
 """
-AI-Assisted Spending Analysis service using the OpenAI (ChatGPT) API.
+AI-assisted spending analysis service using Google's Gemini API.
 Provides summarization of spending patterns and budgeting suggestions.
 """
 
+import json
 import os
-from typing import Optional
+import time
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 
 from database.db_manager import DatabaseManager
 from services.analysis_service import AnalysisService
@@ -16,16 +19,10 @@ try:
 except ImportError:
     pass
 
-try:
-    from openai import OpenAI
-    OPENAI_AVAILABLE = True
-except ImportError:
-    OPENAI_AVAILABLE = False
-
 
 class AIService:
     """
-    Integrates OpenAI Chat Completions for:
+    Integrates Google's Gemini generateContent API for:
     - Spending pattern summarization
     - Budgeting suggestions
     - General finance-related Q&A based on user data
@@ -44,36 +41,85 @@ class AIService:
     def __init__(self, db: DatabaseManager = None, api_key: str = None):
         self.db = db or DatabaseManager()
         self.analysis = AnalysisService(self.db)
-        self.api_key = api_key or os.getenv("OPENAI_API_KEY", "")
-        self.model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
-        self._client = None
-
-        if self.api_key and OPENAI_AVAILABLE:
-            self._client = OpenAI(api_key=self.api_key)
+        self.api_key = (
+            api_key
+            or os.getenv("GOOGLE_AI_API_KEY", "")
+            or os.getenv("GEMINI_API_KEY", "")
+        )
+        self.model = os.getenv("GEMINI_MODEL", "gemini-3-flash-preview")
+        self.endpoint = (
+            "https://generativelanguage.googleapis.com/v1beta/models/"
+            f"{self.model}:generateContent"
+        )
 
     @property
     def is_available(self) -> bool:
-        return self._client is not None
+        return bool(self.api_key)
 
-    def _call_openai(self, user_message: str, max_tokens: int = 1200) -> str:
-        if not self._client:
+    def _call_gemini(self, user_message: str, max_output_tokens: int = 8192) -> str:
+        if not self.api_key:
             return (
-                "AI service is not configured. Please set the OPENAI_API_KEY environment variable "
-                "or create a .env file containing OPENAI_API_KEY=sk-..."
+                "AI service is not configured. Please set the GOOGLE_AI_API_KEY "
+                "environment variable and restart the app."
             )
-        try:
-            response = self._client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {"role": "system", "content": self.SYSTEM_PROMPT},
-                    {"role": "user", "content": user_message},
-                ],
-                max_tokens=max_tokens,
-                temperature=0.4,
-            )
-            return response.choices[0].message.content.strip()
-        except Exception as exc:
-            return f"AI request failed: {str(exc)}"
+
+        payload = {
+            "systemInstruction": {
+                "parts": [{"text": self.SYSTEM_PROMPT}],
+            },
+            "contents": [
+                {
+                    "role": "user",
+                    "parts": [{"text": user_message}],
+                }
+            ],
+            "generationConfig": {
+                "temperature": 0.4,
+                "maxOutputTokens": max_output_tokens,
+            },
+        }
+        request = Request(
+            f"{self.endpoint}?key={self.api_key}",
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+
+        for attempt in range(3):
+            try:
+                with urlopen(request, timeout=45) as response:
+                    response_data = json.loads(response.read().decode("utf-8"))
+                break
+            except HTTPError as exc:
+                try:
+                    error_data = json.loads(exc.read().decode("utf-8"))
+                    error_message = error_data.get("error", {}).get("message", "request rejected")
+                except (json.JSONDecodeError, UnicodeDecodeError):
+                    error_message = "request rejected"
+                if exc.code in {429, 500, 502, 503, 504} and attempt < 2:
+                    time.sleep(2**attempt)
+                    continue
+                return f"Gemini request failed: {error_message}"
+            except URLError:
+                if attempt < 2:
+                    time.sleep(2**attempt)
+                    continue
+                return "Gemini request failed: the service could not be reached."
+            except (TimeoutError, json.JSONDecodeError):
+                if attempt < 2:
+                    time.sleep(2**attempt)
+                    continue
+                return "Gemini request failed: the response was invalid or timed out."
+            except Exception:
+                return "Gemini request failed unexpectedly. Please try again."
+
+        candidates = response_data.get("candidates", [])
+        if not candidates:
+            return "Gemini returned no answer for this request."
+
+        parts = candidates[0].get("content", {}).get("parts", [])
+        answer = "".join(part.get("text", "") for part in parts).strip()
+        return answer or "Gemini returned an empty answer."
 
     def summarize_spending(
         self,
@@ -89,7 +135,7 @@ class AIService:
             "any notable trends, and overall financial health for the period.\n\n"
             f"{context}"
         )
-        result = self._call_openai(prompt)
+        result = self._call_gemini(prompt)
         self._log_analysis(user_id, "summarize_spending", context[:500], result)
         return result
 
@@ -109,7 +155,7 @@ class AIService:
             "and expense levels shown.\n\n"
             f"{context}"
         )
-        result = self._call_openai(prompt)
+        result = self._call_gemini(prompt)
         self._log_analysis(user_id, "suggest_budget", context[:500], result)
         return result
 
@@ -128,7 +174,7 @@ class AIService:
             "say so clearly.\n\n"
             f"{context}"
         )
-        result = self._call_openai(prompt)
+        result = self._call_gemini(prompt)
         self._log_analysis(user_id, "ask_question", question, result)
         return result
 
